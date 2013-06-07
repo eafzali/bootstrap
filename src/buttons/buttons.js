@@ -15,6 +15,14 @@ angular.module('ui.bootstrap.buttons', [])
     link:function (scope, element, attrs, ngModelCtrl) {
 
       var value = scope.$eval(attrs.btnRadio);
+      
+      //btn-radio values -> model
+      scope.$watch(attrs.btnRadio, function(v){
+        value = v;
+        if (element.hasClass(activeClass)) {
+          ngModelCtrl.$setViewValue(value);
+        }
+      });      
 
       //model -> UI
       scope.$watch(function () {

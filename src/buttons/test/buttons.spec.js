@@ -79,6 +79,26 @@ describe('buttons', function () {
       expect(btns.eq(1)).toHaveClass('active');
     });
 
+    //btn-radio values -> model
+    it('should maintain model and btn-radio values', function () {
+      $scope.values = ["value1", "value2"];
+
+      var btns = compileButtons('<button ng-model="model" btn-radio="values[0]">click1</button><button ng-model="model" btn-radio="values[1]">click2</button>', $scope);
+      expect(btns.eq(0)).not.toHaveClass('active');
+      expect(btns.eq(1)).not.toHaveClass('active');
+
+      $scope.model = "value2";
+      $scope.$digest();
+      expect(btns.eq(0)).not.toHaveClass('active');
+      expect(btns.eq(1)).toHaveClass('active');
+
+      $scope.values[1] = "value3";
+      $scope.$digest();
+      expect(btns.eq(0)).not.toHaveClass('active');
+      expect(btns.eq(1)).toHaveClass('active');
+      expect($scope.model).toEqual("value3");
+    });
+    
     //UI->model
     it('should work correctly set active class based on model', function () {
       var btns = compileButtons('<button ng-model="model" btn-radio="1">click1</button><button ng-model="model" btn-radio="2">click2</button>', $scope);
